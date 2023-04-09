@@ -1,10 +1,14 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import menuData from "./menuData";
+import { AuthContext } from "@/context/AuthContext";
+import accountMenuData from "./accountMenuData";
 
 const Header = () => {
+  const authContext = useContext(AuthContext);
+
   // Navbar toggle
   const [navbarOpen, setNavbarOpen] = useState(false);
   const navbarToggleHandler = () => {
@@ -32,6 +36,12 @@ const Header = () => {
     } else {
       setOpenIndex(index);
     }
+  };
+
+  // account menu toggler
+  const [accountMenuOpen, setAccountMenuOpen] = useState(false);
+  const accountMenuToggleHandler = () => {
+    setAccountMenuOpen(!accountMenuOpen);
   };
 
   return (
@@ -142,18 +152,50 @@ const Header = () => {
                 </nav>
               </div>
               <div className="flex items-center justify-end pr-16 lg:pr-0">
-                <Link
-                  href="/signin"
-                  className="hidden py-3 px-7 text-base font-bold text-dark hover:opacity-70 dark:text-white md:block"
-                >
-                  Masuk
-                </Link>
-                <Link
-                  href="/signup"
-                  className="ease-in-up hidden rounded-md bg-primary py-3 px-8 text-base font-bold text-white transition duration-300 hover:bg-opacity-90 hover:shadow-signUp md:block md:px-9 lg:px-6 xl:px-9"
-                >
-                  Daftar
-                </Link>
+                {
+                  authContext.isUserAuthenticated() ?
+                  <>
+                    <h4 className="text-medium font-bold leading-tight text-black dark:text-white sm:text-small sm:leading-tight md:text-medium md:leading-tight hover:cursor-pointer" onClick={accountMenuToggleHandler}>
+                      Halo, {`${authContext.authState.username}!`}
+                    </h4>
+                    {
+                      accountMenuOpen &&
+                      <div className={`navbar absolute right-0 z-30 w-[250px] rounded border-[.5px] border-body-color/50 bg-white py-4 px-6 duration-300 dark:border-body-color/20 dark:bg-dark ${
+                        accountMenuOpen
+                          ? "visibility top-[70%] opacity-100"
+                          : "invisible top-[120%] opacity-0"
+                      }`}>
+                        <ul className="block">
+                          {accountMenuData.map((menuItem, index) => (
+                            <li key={menuItem.id} className="group relative">
+                              <Link
+                                href={menuItem.path}
+                                className={`flex py-2 text-base text-dark group-hover:opacity-70 dark:text-white`}
+                              >
+                                {menuItem.title}
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    }
+                  </> :
+                  <>
+                    <Link
+                      href="/signin"
+                      className="hidden py-3 px-7 text-base font-bold text-dark hover:opacity-70 dark:text-white md:block"
+                    >
+                      Masuk
+                    </Link>
+                    <Link
+                      href="/signup"
+                      className="ease-in-up hidden rounded-md bg-primary py-3 px-8 text-base font-bold text-white transition duration-300 hover:bg-opacity-90 hover:shadow-signUp md:block md:px-9 lg:px-6 xl:px-9"
+                    >
+                      Daftar
+                    </Link>
+                  </>
+                }
+                
               </div>
             </div>
           </div>
