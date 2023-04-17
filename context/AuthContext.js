@@ -5,8 +5,8 @@ const { Provider } = AuthContext;
 
 const AuthProvider = ({ children }) => {
   const [authState, setAuthState] = React.useState({
-   token: localStorage.getItem('token') || '',
-   username: localStorage.getItem('username') || 'Anonymous',
+   token: (typeof window !== 'undefined' && localStorage.getItem('token')) || '',
+   username: (typeof window !== 'undefined' && localStorage.getItem('username')) || 'Anonymous',
   });
 
   const setUserAuthInfo = ({ token, username }) => {

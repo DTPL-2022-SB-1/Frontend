@@ -6,8 +6,10 @@ export async function register(data) {
         data,
     );
 
-    localStorage.setItem('token', response.data['token'])
-    localStorage.setItem('username', data['username'])
+    if (typeof window !== 'undefined') {
+        localStorage.setItem('token', response.data['token'])
+        localStorage.setItem('username', data['username'])
+    }
 
     return response;
 }
@@ -18,14 +20,18 @@ export async function login(data) {
         data,
     );
 
-    localStorage.setItem('token', response.data['token'])
-    localStorage.setItem('username', data['username'])
-
+    if (typeof window !== 'undefined') {
+        localStorage.setItem('token', response.data['token'])
+        localStorage.setItem('username', data['username'])
+    }
     return response;
 }
 
 export async function logout() {
-    const token = localStorage.getItem('token');
+    let token = ''
+    if (typeof window !== 'undefined') {
+        token = localStorage.getItem('token');
+    }
 
     if (token) {
         const response = await axios.post(
@@ -38,9 +44,10 @@ export async function logout() {
             }
         )
 
-        localStorage.removeItem('token');
-        localStorage.removeItem('username');
-
+        if (typeof window !== 'undefined') {
+            localStorage.removeItem('token');
+            localStorage.removeItem('username');
+        }
         return response;
     }
 }
