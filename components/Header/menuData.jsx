@@ -13,7 +13,7 @@ const menuData = [
       {
         id: 41,
         title: "Buat Janji",
-        path: "/about",
+        path: "/choose-schedule",
         newTab: false,
       },
     ],
