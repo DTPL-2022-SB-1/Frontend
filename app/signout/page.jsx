@@ -14,9 +14,9 @@ const SignOutPage = () => {
             .then((response) => {
                 authContext.clearAuthState();
             });
+        router.replace('/');
     }, [logout, authContext, router]);
-    
-    router.replace('/');
+
 }
 
 export default SignOutPage;
