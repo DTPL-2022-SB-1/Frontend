@@ -8,6 +8,7 @@ const ScheduleCol = ({ data, onClick, selected }) => {
                 <ul className="w-36">
                     {data.items && data.items.map((item) => (
                         <li
+                            key={item.id}
                             class="py-4 dark:border-opacity-50 grid justify-items-center">
                             <Badge key={item.id} item={item} onClick={onClick} selected={selected} />
                         </li>
