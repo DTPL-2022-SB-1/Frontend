@@ -44,7 +44,7 @@ const ScheduleAppointment = ({ data, onClick, onSubmit, selected }) => {
 
     const renderDays = () => {
         if (data.days && data.days.length > 0) {
-            return data.days.map((day) => <ScheduleCol data={day} onClick={onClick} selected={selected} />)
+            return data.days.map((day) => <ScheduleCol key={day.id} data={day} onClick={onClick} selected={selected} />)
         }
         return (
             <div>Tidak ada jadwal tersedia</div>
